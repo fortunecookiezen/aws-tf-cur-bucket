@@ -1,8 +1,20 @@
 data "aws_iam_policy_document" "key_policy" {
   statement {
+    sid = "EnableIamPolicies"
+    effect = "Allow"
+    resources = ["*"]
+
+    actions = ["kms:*"]
+
+    principals {
+      type = "AWS"
+      identifiers = [data.aws_billing_service_account.current.arn]
+    }
+  }
+  statement {
     sid       = "AWSConfigKMSPolicy"
     effect    = "Allow"
-    resources = [aws_kms_key.cost_and_usage.arn]
+    resources = ["*"]
 
     actions = [
       "kms:Decrypt",

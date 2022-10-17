@@ -49,6 +49,7 @@ resource "aws_s3_bucket_versioning" "cost_and_usage" {
 resource "aws_kms_key" "cost_and_usage" {
   description             = "Encryption key for ${aws_s3_bucket.cost_and_usage.id}"
   deletion_window_in_days = 10
+  policy = data.aws_iam_policy_document.key_policy.json
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "cost_and_usage" {
